@@ -70,8 +70,7 @@
 
             %#{$property-class + $infix + $property-class-modifier} {
                 @each $property in $properties {
-                    #{$property}: $value
-                        if($enable-important-utilities, !important, null);
+                    #{$property}: $value;
                 }
             }
 
@@ -97,8 +96,7 @@
                     + $infix
                     + $property-class-modifier}-#{$pseudo}:#{$pseudo} {
                     @each $property in $properties {
-                        #{$property}: $value
-                            if($enable-important-utilities, !important, null);
+                        #{$property}: $value;
                     }
                 }
             }

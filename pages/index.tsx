@@ -1,9 +1,20 @@
 import type { NextPage } from 'next';
+import type { RootState } from '../store/store';
+
 import Head from 'next/head';
 
 import NoteOperation from '../components/note/NoteOperation';
 
+import { useSelector, useDispatch } from 'react-redux'
+import { increment, decrement, incrementByAmount, decremenByAmount, selectValue } from '../store/counter/counterSlice';
+import { useState } from 'react';
+
+
 const Home: NextPage = () => {
+    const count = useSelector(selectValue);
+    const dispatch = useDispatch();
+    const [incrementValue, setIncrementValue] = useState<number>(0)
+
     return (
         <>
             <Head>
@@ -21,6 +32,20 @@ const Home: NextPage = () => {
                         <NoteOperation />
                     </div>
                     <div className="col-md-9">
+                        <h1 className='text-center'>Counter {count}</h1>
+                        <div className="btn-container text-center">
+                            <button onClick={() => dispatch(increment())} className="btn btn-success">Increment</button>
+                            <button onClick={() => dispatch(decrement())} className="btn btn-danger">Decrement</button>
+
+                            <div className="input-group">
+                                {/* <div className="input-group-text" id="btnGroupAddon">@</div> */}
+                                <button onClick={() => dispatch(incrementByAmount(incrementValue))} type="button" className="btn btn-primary mb-0">Increment</button>
+                                <input value={incrementValue} onChange={(e:any) => setIncrementValue(Number(e.target.value))} type="number" className="form-control text-center" placeholder="Input group example" aria-label="Input group example" aria-describedby="btnGroupAddon" />
+                                <button onClick={() => dispatch(decremenByAmount(incrementValue))} type="button" className="btn btn-primary mb-0 ms-1">Decrement</button>
+                            </div>
+                        </div>
+
+
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores dolorum fuga illo magni maxime minima provident totam ullam veritatis
                         voluptates? Ad
                         aspernatur delectus deleniti dignissimos eligendi ipsa iure minus nostrum!

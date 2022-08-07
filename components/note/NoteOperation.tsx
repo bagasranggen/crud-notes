@@ -8,6 +8,9 @@ import { useForm } from 'react-hook-form';
 import Spinner from '../common/spinner/Spinner';
 import InputText from '../common/input/inputText/InputText';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { getNotes, selectValue } from '../../store/notes/notesSlice';
+
 const CkEditor = dynamic<any>(() => import('../common/ckEditor/CkEditor'), { loading: () => <Spinner />, ssr: false });
 
 export type NoteOperationProps = {};
@@ -19,7 +22,18 @@ interface NoteFormTypes {
 
 const fetcher = (url: any) => fetch(url).then((r) => r.json());
 
-const NoteOperation = ({}: NoteOperationProps): React.ReactElement => {
+const NoteOperation = ({ }: NoteOperationProps): React.ReactElement => {
+
+    const notes = useSelector(selectValue);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        console.log(dispatch(getNotes()));
+
+        console.log(notes);
+    }, [])
+
+
     const { mutate } = useSWRConfig();
     const { data, error, isValidating } = useSWR('/api/notes', fetcher,);
 
@@ -31,12 +45,12 @@ const NoteOperation = ({}: NoteOperationProps): React.ReactElement => {
     const { handleSubmit, register, formState: { errors }, setValue, trigger, reset } = useForm<NoteFormTypes>({ defaultValues });
 
 
-    const [ isVisible, setIsVisible ] = useState<boolean>(false);
-    const [ isLoading, setIsLoading ] = useState<boolean>(false);
+    const [isVisible, setIsVisible] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         reset(defaultValues);
-    }, [ isVisible ]);
+    }, [isVisible]);
 
     const inputShowHandler = () => setIsVisible(!isVisible);
 
