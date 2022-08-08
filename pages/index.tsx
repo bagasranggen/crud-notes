@@ -1,22 +1,37 @@
 import type { NextPage } from 'next';
-import type { RootState } from '../store/store';
-
+import { useState } from 'react';
 import Head from 'next/head';
+
+import { SWRConfig } from 'swr';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment, decrement, incrementByAmount, decremenByAmount, selectValue } from '../store/counter/counterSlice';
 
 import NoteOperation from '../components/note/NoteOperation';
 
-import { useSelector, useDispatch } from 'react-redux'
-import { increment, decrement, incrementByAmount, decremenByAmount, selectValue } from '../store/counter/counterSlice';
-import { useState } from 'react';
+export async function getStaticProps() {
+    const response = await fetch(`${process.env.BASE_WEB_URL}/api/notes`);
+    const notes = await response.json();
 
+    return {
+        props: {
+            fallback: {
+                '/api/notes': notes
+            }
+        }
+    };
+}
 
-const Home: NextPage = () => {
+type HomeProps = NextPage & {
+    fallback: any
+}
+
+const Home = ({ fallback }: HomeProps) => {
     const count = useSelector(selectValue);
     const dispatch = useDispatch();
-    const [incrementValue, setIncrementValue] = useState<number>(0)
+    const [ incrementValue, setIncrementValue ] = useState<number>(0);
 
     return (
-        <>
+        <SWRConfig value={{ fallback }}>
             <Head>
                 <title>Note</title>
                 <meta
@@ -32,16 +47,36 @@ const Home: NextPage = () => {
                         <NoteOperation />
                     </div>
                     <div className="col-md-9">
-                        <h1 className='text-center'>Counter {count}</h1>
+                        <h1 className="text-center">Counter {count}</h1>
                         <div className="btn-container text-center">
-                            <button onClick={() => dispatch(increment())} className="btn btn-success">Increment</button>
-                            <button onClick={() => dispatch(decrement())} className="btn btn-danger">Decrement</button>
+                            <button
+                                onClick={() => dispatch(increment())}
+                                className="btn btn-success">Increment
+                            </button>
+                            <button
+                                onClick={() => dispatch(decrement())}
+                                className="btn btn-danger">Decrement
+                            </button>
 
                             <div className="input-group">
-                                {/* <div className="input-group-text" id="btnGroupAddon">@</div> */}
-                                <button onClick={() => dispatch(incrementByAmount(incrementValue))} type="button" className="btn btn-primary mb-0">Increment</button>
-                                <input value={incrementValue} onChange={(e:any) => setIncrementValue(Number(e.target.value))} type="number" className="form-control text-center" placeholder="Input group example" aria-label="Input group example" aria-describedby="btnGroupAddon" />
-                                <button onClick={() => dispatch(decremenByAmount(incrementValue))} type="button" className="btn btn-primary mb-0 ms-1">Decrement</button>
+                                <button
+                                    onClick={() => dispatch(incrementByAmount(incrementValue))}
+                                    type="button"
+                                    className="btn btn-primary mb-0">Increment
+                                </button>
+                                <input
+                                    value={incrementValue}
+                                    onChange={(e: any) => setIncrementValue(Number(e.target.value))}
+                                    type="number"
+                                    className="form-control text-center"
+                                    placeholder="Input group example"
+                                    aria-label="Input group example"
+                                    aria-describedby="btnGroupAddon" />
+                                <button
+                                    onClick={() => dispatch(decremenByAmount(incrementValue))}
+                                    type="button"
+                                    className="btn btn-primary mb-0 ms-1">Decrement
+                                </button>
                             </div>
                         </div>
 
@@ -52,7 +87,7 @@ const Home: NextPage = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </SWRConfig>
     );
 };
 

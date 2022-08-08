@@ -1,6 +1,6 @@
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { RootState } from '../store'
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 // First, create the thunk
 // const fetchUserById = createAsyncThunk(
@@ -21,17 +21,17 @@ const initialState: NotesState = {
     isLoading: false,
     hasErrors: false,
     notes: [],
-}
+};
 
 export const notesSlice = createSlice({
     name: 'notes',
     initialState,
     reducers: {
         getNotes: (state) => {
-            state.isLoading = true
+            state.isLoading = true;
         },
         getNotesSuccess: (state, action: PayloadAction<Array<any>>) => {
-            state.notes = action.payload
+            state.notes = action.payload;
         },
 
         // delete: async() => {
@@ -54,29 +54,29 @@ export const notesSlice = createSlice({
         //     state.value -= action.payload
         // },
     },
-})
+});
 
 // Action creators are generated for each case reducer function
-export const { getNotes, getNotesSuccess } = notesSlice.actions
+export const { getNotes, getNotesSuccess } = notesSlice.actions;
 
 // Selector
-export const selectValue = (state: RootState) => state.notes.notes
+export const selectValue = (state: RootState) => state.notes.notes;
 
-export default notesSlice.reducer
+export default notesSlice.reducer;
 
 
 // Asynchronous thunk action
 export function fetchRecipes() {
     return async (dispatch: any) => {
-        dispatch(getNotes())
+        dispatch(getNotes());
 
         try {
-            const response = await fetch('/api/notes')
-            const data = await response.json()
+            const response = await fetch('http://localhost:3000/api/notes');
+            const data = await response.json();
 
-            dispatch(getNotesSuccess(data))
+            dispatch(getNotesSuccess(data));
         } catch (error) {
             // dispatch(getRecipesFailure())
         }
-    }
+    };
 }

@@ -12,11 +12,12 @@ export type CkEditorProps = {
     required?: boolean | string;
     errors: any;
     trigger: any;
+    data?: any;
     setValue?: (key: any, value: any) => void;
     onChange?: (event: any, editor: any) => void;
 };
 
-const CkEditor = ({ className, id, register, required, errors, trigger, setValue, onChange }: CkEditorProps): React.ReactElement => {
+const CkEditor = ({ className, id, register, required, errors, trigger, data, setValue, onChange }: CkEditorProps): React.ReactElement => {
     useEffect(() => {
         register(id, {
             ...required ? { required: required } : {},
@@ -30,6 +31,7 @@ const CkEditor = ({ className, id, register, required, errors, trigger, setValue
                     id={id}
                     className={'is-invalid'}
                     editor={ClassicEditor}
+                    data={data}
                     config={{
                         // plugins: [ Paragraph, Bold, Italic, Essentials ],
                         toolbar: [ 'bold', 'italic', 'link', 'bulletedList', 'numberedList', ]

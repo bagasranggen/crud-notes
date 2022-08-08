@@ -7,6 +7,7 @@ type InputTextProps = {
     id: string;
     register: any;
     required?: boolean | string;
+    hidden?: boolean;
     validation?: {
         minLength?: {
             value: number;
@@ -25,7 +26,7 @@ type InputTextProps = {
     onChange?: (e: any) => void;
 };
 
-const InputText = ({ type, placeholder, className, id, register, required, validation, errors, onChange }: InputTextProps): React.ReactElement => {
+const InputText = ({ type, placeholder, className, id, register, required, hidden, validation, errors, onChange }: InputTextProps): React.ReactElement => {
     const inputRegister = register(id, {
         ...required ? { required: required } : {},
         ...validation ? validation : {}
@@ -37,6 +38,7 @@ const InputText = ({ type, placeholder, className, id, register, required, valid
                 type={type ? type : 'text'}
                 className={`form-control${errors[id] ? ' is-invalid' : ''}`}
                 placeholder={placeholder}
+                {...hidden && { hidden: true }}
                 {...inputRegister}
                 onChange={(e: any) => {
                     inputRegister.onChange(e);
