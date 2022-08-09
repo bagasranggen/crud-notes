@@ -1,0 +1,15 @@
+@mixin btn-default($bg, $clr) {
+
+    @extend %text-uppercase;
+    font-weight: 600;
+    background-color: $bg;
+    color: $clr;
+
+    @include media-breakpoint-up(md) {
+        @include hover() {
+            background-color: $clr;
+            border-color: $bg;
+            color: $bg;
+        }
+    }
+}

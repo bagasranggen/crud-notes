@@ -1,37 +1,15 @@
+import React, { useState } from 'react';
 import type { NextPage } from 'next';
-import { useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 
-import { SWRConfig } from 'swr';
-import { useSelector, useDispatch } from 'react-redux';
-import { increment, decrement, incrementByAmount, decremenByAmount, selectValue } from '../store/counter/counterSlice';
+const Home: NextPage = () => {
+    const [ show, setShow ] = useState<boolean>(false);
 
-import NoteOperation from '../components/note/NoteOperation';
-
-export async function getStaticProps() {
-    const response = await fetch(`${process.env.BASE_WEB_URL}/api/notes`);
-    const notes = await response.json();
-
-    return {
-        props: {
-            fallback: {
-                '/api/notes': notes
-            }
-        }
-    };
-}
-
-type HomeProps = NextPage & {
-    fallback: any
-}
-
-const Home = ({ fallback }: HomeProps) => {
-    const count = useSelector(selectValue);
-    const dispatch = useDispatch();
-    const [ incrementValue, setIncrementValue ] = useState<number>(0);
+    setTimeout(() => setShow(true), 250);
 
     return (
-        <SWRConfig value={{ fallback }}>
+        <>
             <Head>
                 <title>Note</title>
                 <meta
@@ -41,53 +19,29 @@ const Home = ({ fallback }: HomeProps) => {
                     rel="icon"
                     href="/favicon.ico" />
             </Head>
-            <div className="my-10 container">
-                <div className="row">
-                    <div className="col-md-3">
-                        <NoteOperation />
-                    </div>
-                    <div className="col-md-9">
-                        <h1 className="text-center">Counter {count}</h1>
-                        <div className="btn-container text-center">
-                            <button
-                                onClick={() => dispatch(increment())}
-                                className="btn btn-success">Increment
-                            </button>
-                            <button
-                                onClick={() => dispatch(decrement())}
-                                className="btn btn-danger">Decrement
-                            </button>
 
-                            <div className="input-group">
-                                <button
-                                    onClick={() => dispatch(incrementByAmount(incrementValue))}
-                                    type="button"
-                                    className="btn btn-primary mb-0">Increment
-                                </button>
-                                <input
-                                    value={incrementValue}
-                                    onChange={(e: any) => setIncrementValue(Number(e.target.value))}
-                                    type="number"
-                                    className="form-control text-center"
-                                    placeholder="Input group example"
-                                    aria-label="Input group example"
-                                    aria-describedby="btnGroupAddon" />
-                                <button
-                                    onClick={() => dispatch(decremenByAmount(incrementValue))}
-                                    type="button"
-                                    className="btn btn-primary mb-0 ms-1">Decrement
-                                </button>
-                            </div>
+            <div className="welcome">
+                <div className="container">
+                    <div className="row justify-content-center">
+                        <div className="col-md-8 col-lg-6 col-xl-4">
+                            <h1 className={`title-welcome${show ? ' title-welcome--show' : ''}`}>
+                                <div>
+                                    <span className="title-welcome__first">CRUD</span>
+                                </div>
+                                <div className="my-1 title-welcome__btn text-center">
+                                    <Link href="/notes">
+                                        <a className="btn btn--primary">Start</a>
+                                    </Link>
+                                </div>
+                                <div className="text-end">
+                                    <span className="title-welcome__last">Notes</span>
+                                </div>
+                            </h1>
                         </div>
-
-
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores dolorum fuga illo magni maxime minima provident totam ullam veritatis
-                        voluptates? Ad
-                        aspernatur delectus deleniti dignissimos eligendi ipsa iure minus nostrum!
                     </div>
                 </div>
             </div>
-        </SWRConfig>
+        </>
     );
 };
 

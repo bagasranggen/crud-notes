@@ -1,0 +1,47 @@
+.welcome {
+    @extend %d-flex, %align-items-center, %justify-content-center;
+
+    height: 100vh;
+}
+
+.title-welcome {
+    > div {
+        overflow: hidden;
+    }
+
+    span {
+        font-size: 10rem;
+
+        @include media-breakpoint-up(md) {
+            font-size: 12rem;
+        }
+    }
+
+    &__btn {
+        @include make-transition(opacity, $time: 0.45s, $delay: .25s);
+    }
+
+    &__first,
+    &__last {
+        display: block;
+        @include make-transition(transform, $time: 0.45s, $delay: .25s)
+    }
+
+    &:not(.title-welcome--show) {
+        .title-welcome {
+            &__btn {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            &__first {
+                transform: translateY(-100%);
+            }
+
+            &__last {
+                transform: translateY(100%);
+            }
+        }
+    }
+
+}

@@ -50,3 +50,49 @@
         }
     }
 }
+
+.list {
+    &--note {
+        > li {
+            @extend %position-relative;
+
+            .btn-close,
+            .btn-edit {
+                @extend %position-absolute;
+                @include media-breakpoint-up(md) {
+                    opacity: 0;
+                    display: none;
+                }
+            }
+
+            .btn-close {
+                top: .25rem;
+                right: 0;
+                transform: scale(.65);
+            }
+
+            .btn-edit {
+                top: .15rem;
+                right: 1.6rem;
+                transform: scale(.85);
+            }
+
+            @include media-breakpoint-up(md) {
+                @include hover() {
+                    .btn-close,
+                    .btn-edit {
+                        display: block;
+                        cursor: pointer;
+                        opacity: 1;
+                    }
+                }
+            }
+
+            .form-check {
+                label {
+                    padding-right: 4rem;
+                }
+            }
+        }
+    }
+}

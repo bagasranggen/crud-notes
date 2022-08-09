@@ -1,0 +1,41 @@
+.form-check {
+    @extend %position-relative;
+
+    input[type='radio'] {
+        + label {
+            @extend %d-block;
+            cursor: pointer;
+
+            &:before,
+            &:after {
+                content: '';
+                position: absolute;
+                border: solid .1rem $nt-primary;
+                border-radius: 100%;
+            }
+
+            &:before {
+                top: .5rem;
+                left: 0;
+                width: 1.8rem;
+                height: 1.8rem;
+            }
+
+            &:after {
+                top: .8rem;
+                left: .3rem;
+                width: 1.2rem;
+                height: 1.2rem;
+                background-color: $nt-primary;
+            }
+        }
+
+        &:not(:checked) {
+            + label {
+                &:after {
+                    opacity: 0;
+                }
+            }
+        }
+    }
+}

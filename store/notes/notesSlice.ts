@@ -1,37 +1,21 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
-// First, create the thunk
-// const fetchUserById = createAsyncThunk(
-//     '/api/notes',
-//     async (userId: number, thunkAPI) => {
-//       const response = await userAPI.fetchById(userId)
-//       return response.data
-//     }
-//   )
-
 export interface NotesState {
-    isLoading: boolean;
-    hasErrors: boolean;
-    notes: Array<any>;
+    noteSelectedId: string;
 }
 
 const initialState: NotesState = {
-    isLoading: false,
-    hasErrors: false,
-    notes: [],
+    noteSelectedId: '',
 };
 
 export const notesSlice = createSlice({
     name: 'notes',
     initialState,
     reducers: {
-        getNotes: (state) => {
-            state.isLoading = true;
-        },
-        getNotesSuccess: (state, action: PayloadAction<Array<any>>) => {
-            state.notes = action.payload;
+        select: (state: any, action: PayloadAction<string>) => {
+            state.noteSelectedId = action.payload;
         },
 
         // delete: async() => {
@@ -57,26 +41,9 @@ export const notesSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { getNotes, getNotesSuccess } = notesSlice.actions;
+export const { select } = notesSlice.actions;
 
 // Selector
-export const selectValue = (state: RootState) => state.notes.notes;
+export const selectValue = (state: RootState) => state.notes.noteSelectedId;
 
 export default notesSlice.reducer;
-
-
-// Asynchronous thunk action
-export function fetchRecipes() {
-    return async (dispatch: any) => {
-        dispatch(getNotes());
-
-        try {
-            const response = await fetch('http://localhost:3000/api/notes');
-            const data = await response.json();
-
-            dispatch(getNotesSuccess(data));
-        } catch (error) {
-            // dispatch(getRecipesFailure())
-        }
-    };
-}
