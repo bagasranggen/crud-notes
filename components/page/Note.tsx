@@ -7,6 +7,8 @@ import { selectValue } from '../../store/notes/notesSlice';
 import NoteOperation from '../note/NoteOperation';
 import NotePreview from '../note/NotePreview';
 
+import MainLayout from '../layout/mainLayout/MainLayout';
+
 export type NoteProps = {};
 
 const Note = ({}: NoteProps): React.ReactElement => {
@@ -32,19 +34,21 @@ const Note = ({}: NoteProps): React.ReactElement => {
     }, [ selectedNoteId, notesIsValidating ]);
 
     return (
-        <div className="my-2 my-md-10 container">
-            <div className="row gy-3">
-                <div className="col-md-3">
-                    <NoteOperation
-                        items={notes}
-                        active={selectedNoteId}
-                        itemsValidating={notesIsValidating} />
-                </div>
-                <div className="col-md-9">
-                    <NotePreview note={selectedNote} />
+        <MainLayout>
+            <div className="my-2 my-md-5 container">
+                <div className="row gy-3">
+                    <div className="col-md-3">
+                        <NoteOperation
+                            items={notes}
+                            active={selectedNoteId}
+                            itemsValidating={notesIsValidating} />
+                    </div>
+                    <div className="col-md-9">
+                        <NotePreview note={selectedNote} />
+                    </div>
                 </div>
             </div>
-        </div>
+        </MainLayout>
     );
 };
 

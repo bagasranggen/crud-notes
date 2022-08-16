@@ -1,0 +1,111 @@
+.navbar {
+    background-color: $nt-light;
+
+    &.sticky-top {
+        z-index: 1050;
+    }
+
+    &-brand {
+        cursor: pointer;
+    }
+
+    &-toggler {
+        @extend %ms-auto, %my-1;
+        border: none;
+
+        .menu-toggle {
+            @extend %d-flex, %align-items-center;
+
+            &__text {
+                @extend %position-relative, %text-uppercase;
+
+                height: $menu-toggle-height;
+                overflow: hidden;
+                font-size: 1.4rem;
+                font-weight: 600;
+                color: $nt-primary;
+
+                @include media-breakpoint-down(md) {
+                    display: none;
+                }
+
+                > div {
+                    @include make-transition(margin-top);
+                }
+            }
+
+            &__icon {
+                @extend %position-relative, %ms-md-2;
+
+                width: 3.5rem;
+                height: 3.5rem;
+                border-radius: .5rem;
+                border: solid .2rem $nt-primary;
+                transform: rotate(45deg);
+
+                @include make-transition(border-color);
+
+                &:before,
+                &:after {
+                    @extend %position-absolute;
+
+                    content: '';
+                    top: 50%;
+                    left: 50%;
+                    width: 1rem;
+                    height: .2rem;
+                    background-color: $nt-primary;
+
+                    @include make-transition(opacity margin-left margin-top)
+                }
+
+                &:before {
+                    transform: translate(-50%, -50%);
+                }
+
+                &:after {
+                    transform: translate(-50%, -50%) rotate(90deg);
+                }
+            }
+        }
+
+        &[aria-expanded=false] {
+            .menu-toggle {
+                &__icon {
+                    &:before,
+                    &:after {
+                        opacity: 0;
+                    }
+
+                    &:before {
+                        margin-left: 1rem;
+                    }
+
+                    &:after {
+                        margin-top: 1rem;
+                    }
+                }
+            }
+        }
+
+        &[aria-expanded=true] {
+            .menu-toggle {
+                &__text {
+                    > div {
+                        &:first-child {
+                            margin-top: -#{$menu-toggle-height};
+                        }
+                    }
+                }
+
+                &__icon {
+                    @include media-breakpoint-up(md) {
+                        @include hover() {
+                            border-color: transparentize($nt-primary, .3);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
