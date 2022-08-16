@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { useGlobalStateContext } from '../store/context/GlobalContext';
 
@@ -10,6 +11,7 @@ import Spinner from '../components/common/spinner/Spinner';
 
 const Home: NextPage = () => {
     const { setLayout } = useGlobalStateContext();
+    const router = useRouter();
 
     const [ show, setShow ] = useState<boolean>(false);
     const [ isExit, setIsExit ] = useState<boolean>(false);
@@ -38,12 +40,14 @@ const Home: NextPage = () => {
                                     <span className="title-welcome__first">CRUD</span>
                                 </div>
                                 <div className="my-1 title-welcome__btn text-center">
-                                    <Link
-                                        href="/notes"
-                                    >
+                                    <Link href="/notes">
                                         <a
                                             className="btn btn--primary"
-                                            onClick={() => setIsExit(true)}>Start</a>
+                                            onClick={(e: any) => {
+                                                e.preventDefault();
+                                                setIsExit(true);
+                                                setTimeout(() => router.push(e.target.href), 450);
+                                            }}>Start</a>
                                     </Link>
                                 </div>
                                 <div className="text-end">
