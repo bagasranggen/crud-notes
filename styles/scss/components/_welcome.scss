@@ -44,4 +44,40 @@
         }
     }
 
+    &.title-welcome--show.title-welcome--exit {
+        .title-welcome {
+            &__btn,
+            &__first,
+            &__last {
+                @include make-transition(transform opacity, $time: 0.45s);
+            }
+
+            &__btn {
+                opacity: 0;
+            }
+
+            &__first {
+                transform: translateY(-100%);
+            }
+
+            &__last {
+                transform: translateY(100%);
+            }
+        }
+    }
+
+    + div {
+        @extend %position-absolute;
+
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+
+        @include make-transition(opacity, $delay: .45s);
+
+        &.fade {
+            opacity: 1;
+        }
+    }
 }
