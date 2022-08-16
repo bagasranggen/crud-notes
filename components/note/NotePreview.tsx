@@ -12,7 +12,9 @@ const NotePreview = ({ note }: NotePreviewProps): React.ReactElement => (
         {note && (
             <>
                 <h1 className="mb-3">{note.title}</h1>
-                <div dangerouslySetInnerHTML={{ __html: note.description }} />
+                <div
+                    className="note-preview"
+                    dangerouslySetInnerHTML={{ __html: note.description }} />
             </>
         )}
     </>
