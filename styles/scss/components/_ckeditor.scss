@@ -1,5 +1,6 @@
 .ckeditor {
     .ck-editor__editable_inline {
+        min-height: 30rem;
         max-height: 30rem;
         overflow: auto;
     }

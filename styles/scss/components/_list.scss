@@ -105,8 +105,12 @@ list {
         > li {
             pointer-events: all;
             line-height: 1.2;
-            font-size: 10rem;
+            font-size: 5rem;
             font-weight: 800;
+
+            @include media-breakpoint-up(md) {
+                font-size: 10rem;
+            }
 
             a {
                 @extend %position-relative, %d-block;

@@ -25,8 +25,7 @@ const Navigation = ({}: NavigationProps): React.ReactElement => {
                 expand={false}
                 sticky="top">
                 <div className="container">
-
-
+                    
                     <Link href="/">
                         <Navbar.Brand>
                             <Image
