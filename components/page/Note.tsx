@@ -3,15 +3,17 @@ import useSWR from 'swr';
 
 import { useSelector } from 'react-redux';
 import { selectValue } from '../../store/notes/notesSlice';
+import { useGlobalStateContext } from '../../store/context/GlobalContext';
 
+import HeaderMeta from '../layout/headerMeta/HeaderMeta';
 import NoteOperation from '../note/NoteOperation';
 import NotePreview from '../note/NotePreview';
-
-import MainLayout from '../layout/mainLayout/MainLayout';
 
 export type NoteProps = {};
 
 const Note = ({}: NoteProps): React.ReactElement => {
+    const { setLayout } = useGlobalStateContext();
+
     const fetcher = (url: any) => fetch(url).then((r) => r.json());
     const { data: notes, error: notesError, isValidating: notesIsValidating } = useSWR('/api/notes', fetcher);
 
@@ -33,8 +35,14 @@ const Note = ({}: NoteProps): React.ReactElement => {
         setSelectedNote(findSelectedNote(notes, selectedNoteId));
     }, [ selectedNoteId, notesIsValidating ]);
 
+    useEffect(() => {
+        setLayout(true);
+    }, []);
+
     return (
-        <MainLayout>
+        <>
+            <HeaderMeta title="Create Note" />
+
             <div className="my-2 my-md-5 container">
                 <div className="row gy-3">
                     <div className="col-md-3">
@@ -48,7 +56,7 @@ const Note = ({}: NoteProps): React.ReactElement => {
                     </div>
                 </div>
             </div>
-        </MainLayout>
+        </>
     );
 };
 
