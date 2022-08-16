@@ -13,7 +13,11 @@ import '@fontsource/poppins/800.css'; // Defaults to weight 400.
 import '../styles/scss/bootstrap.scss';
 import '../styles/scss/main.scss';
 
+// import '../styles/scss/main.scss';
+
 function MyApp({ Component, pageProps }: AppProps) {
+
+
     return (
         <Provider store={store}>
             <NotesStateContextProvider>
